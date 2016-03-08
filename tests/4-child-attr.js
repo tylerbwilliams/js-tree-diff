@@ -43,7 +43,7 @@ export default function test( next ) {
 		op: 'UPDATE',
 		node: { key: 0, path: [ 0 ] },
 		type: 'attr',
-		key: 'className',
+		attr: 'className',
 		value: 'child-class'
 	}
 

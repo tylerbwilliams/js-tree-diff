@@ -27,7 +27,7 @@ export default function test( next ) {
 		op: 'UPDATE',
 		node: { key: 0, path: [] },
 		type: 'attr',
-		key: 'className',
+		attr: 'className',
 		value: 'root-class'
 	};
 
