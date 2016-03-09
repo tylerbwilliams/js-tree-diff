@@ -1,13 +1,10 @@
 
-import assert from 'assert';
+define(function(require) {
+	var registerSuite = require('intern!object');
+	var assert = require('intern/chai!assert');
+	var diff = require('intern/dojo/node!../../lib/tree-diff');
 
-import diff from '../src/tree-diff';
-
-const DEBUG = false;
-
-export default function test( next ) {
-	
-	const tree1 = {
+	var tree1 = {
 		key: 0,
 		path: [],
 		label: 'div',
@@ -37,7 +34,7 @@ export default function test( next ) {
 		]
 	};
 
-	const tree2 = {
+	var tree2 = {
 		key: 0,
 		path: [],
 		label: 'div',
@@ -67,10 +64,13 @@ export default function test( next ) {
 		]
 	};
 
-	const patches = diff( tree1, tree2 );
-	DEBUG && console.log( patches );
-	
-	assert.ok( patches.length === 0, 'Unexpected patches.');
-	
-	next();
-}
+	var patches = diff( tree1, tree2 );
+
+	registerSuite({
+		name: '05-child-multi',
+
+		test: function() {
+			assert.ok( patches.length === 0, 'Unexpected patches.');
+		}
+	})
+});
