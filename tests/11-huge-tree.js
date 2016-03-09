@@ -3,7 +3,7 @@ import assert from 'assert';
 
 import diff from '../src/tree-diff';
 
-const DEBUG = true;
+const DEBUG = false;
 
 const state = {
 	path: []
