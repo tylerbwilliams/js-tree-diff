@@ -1,5 +1,5 @@
 
-var unitTests = [
+const unitTests = [
   'tests/unit/01-root-equal',
   'tests/unit/02-root-attr',
   'tests/unit/03-child-equal',
@@ -13,7 +13,7 @@ var unitTests = [
   'tests/unit/11-huge-tree',
 ];
 
-//var unitTests = require('fs').readdirSync('./unit');
+//const unitTests = require('fs').readdirSync('./unit');
 // Learn more about configuring this file at <https://theintern.github.io/intern/#configuration>.
 // These default settings work OK for most people. The options that *must* be changed below are the
 // packages, suites, excludeInstrumentation, and (if you want functional tests) functionalSuites

@@ -1,10 +1,11 @@
 
-define(function(require) {
-	var registerSuite = require('intern!object');
-	var assert = require('intern/chai!assert');
-	var diff = require('intern/dojo/node!../../lib/tree-diff');
+define( require => {
 
-	var tree1 = {
+	const registerSuite = require('intern!object');
+	const assert = require('intern/chai!assert');
+	const diff = require('intern/dojo/node!../../lib/tree-diff');
+
+	const tree1 = {
 		key: 0,
 		path: [],
 		label: 'div',
@@ -34,7 +35,7 @@ define(function(require) {
 		]
 	};
 
-	var tree2 = {
+	const tree2 = {
 		key: 0,
 		path: [],
 		label: 'div',
@@ -64,7 +65,7 @@ define(function(require) {
 		]
 	};
 	
-	var output =  [
+	const output =  [
 		{	op: 'REORDER',
 			node: { key: 'sub-header', path: [Object] },
 			index: 2 },
@@ -73,15 +74,15 @@ define(function(require) {
 			index: 1 }
 	];
 
-	var patches = diff( tree1, tree2 );
-
 	registerSuite({
 		name: '06-child-reorder',
 
-		test: function() {
+		test: ()=> {
+			const patches = diff( tree1, tree2 );
+
 			assert.ok( !( patches.length < 2 ), 'Expected patches not found.');
 			assert.ok( !( patches.length > 2 ), 'Unexpected patches.');
-			
+
 			patches.forEach(( patch, idx )=> {
 				assert.ok( patch, output[idx], 'Patch invalid.');
 			});

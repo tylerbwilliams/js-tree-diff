@@ -1,10 +1,11 @@
 
-define(function(require) {
-	var registerSuite = require('intern!object');
-	var assert = require('intern/chai!assert');
-	var diff = require('intern/dojo/node!../../lib/tree-diff');
+define( require => {
 
-	var tree1 = {
+	const registerSuite = require('intern!object');
+	const assert = require('intern/chai!assert');
+	const diff = require('intern/dojo/node!../../lib/tree-diff');
+
+	const tree1 = {
 		key: 0,
 		path: [],
 		label: 'div',
@@ -20,7 +21,7 @@ define(function(require) {
 		]
 	};
 
-	var tree2 = {
+	const tree2 = {
 		key: 0,
 		path: [],
 		label: 'div',
@@ -36,7 +37,7 @@ define(function(require) {
 		]
 	};
 
-	var output = {
+	const output = {
 		op: 'UPDATE',
 		node: { key: 0, path: [ 0 ] },
 		type: 'attr',
@@ -44,15 +45,14 @@ define(function(require) {
 		value: 'child-class'
 	}
 
-	var patches = diff( tree1, tree2 );
-
 	registerSuite({
 		name: '04-child-attr',
 
-		test: function() {
+		test: ()=> {
+			const patches = diff( tree1, tree2 );
+
 			assert.ok( patches.length !== 0, 'Expected patches not found.');
 			assert.ok( patches.length === 1, 'Unexpected patches.');
-			
 			assert.deepEqual( patches[0], output, 'Unexpected Patch.');
 		}
 	})

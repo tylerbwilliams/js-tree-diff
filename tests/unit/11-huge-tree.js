@@ -1,18 +1,19 @@
 
-define(function(require) {
-	var registerSuite = require('intern!object');
-	var assert = require('intern/chai!assert');
-	var diff = require('intern/dojo/node!../../lib/tree-diff');
+define( require => {
 
-	var state = {
+	const registerSuite = require('intern!object');
+	const assert = require('intern/chai!assert');
+	const diff = require('intern/dojo/node!../../lib/tree-diff');
+
+	const state = {
 		path: []
 	};
 
-	var create = ( key, label, attrs, children )=> {
-		var _path = [ ...state.path ];
-		var _key = key;
+	const create = ( key, label, attrs, children )=> {
+		const _path = [ ...state.path ];
+		const _key = key;
 		state.path.push( _key );
-		var node = {
+		const node = {
 			key: _key,
 			path: _path,
 			label: label,
@@ -24,10 +25,10 @@ define(function(require) {
 	};
 
 	const createText = ( key, text )=> {
-		var _path = [ ...state.path ];
-		var _key = key;
+		const _path = [ ...state.path ];
+		const _key = key;
 		state.path.push( _key );
-		var node = {
+		const node = {
 			key: _key,
 			path: _path,
 			label: 'text',
@@ -41,34 +42,30 @@ define(function(require) {
 	registerSuite({
 		name: '11-huge-tree',
 
-		test: function() {
-			var createBigTree = function( depth, attrName ) {
+		test: ()=> {
+			const createBigTree = ( depth, attrName )=> {
 				if ( depth === 0 ) return [];
 				return [
-					create( 0, 'h1', { title: 'My Title' }, function() {
-						return [
-							createText( 0, 'This is a title.')
-						];
-					}),
-					create( 1, 'p', { className: attrName }, function() {
-						return [
-							createText( 0, 'This is a sub-title paragraph.')
-						];
-					}),
+					create( 0, 'h1', { title: 'My Title' }, ()=> [
+						createText( 0, 'This is a title.')
+					]),
+					create( 1, 'p', { className: attrName }, ()=> [
+						createText( 0, 'This is a sub-title paragraph.')
+					]),
 					create( 2, 'p', { }, ()=> createBigTree( depth - 1, attrName ))
 				]
 			};
 			
-			var tree1 = create( 0, 'div', { className: 'root-class' },
-				function(){return createBigTree( 1000, 'attr1'); });
+			const tree1 = create( 0, 'div', { className: 'root-class' },
+				()=> createBigTree( 1000, 'attr1'));
 			
-			var tree2 = create( 0, 'div', { className: 'root-class' },
-				function(){return createBigTree( 1000, 'attr2'); });
+			const tree2 = create( 0, 'div', { className: 'root-class' },
+				()=> createBigTree( 1000, 'attr2'));
 			
-			var now = Date.now();
-			var patches = diff( tree1, tree2 );
+			const now = Date.now();
+			const patches = diff( tree1, tree2 );
 
-			assert.ok(true, 'I don\'t know what goes here...');
+			assert.ok( true, 'I don\'t know what goes here...');
 		}
 	})
 });

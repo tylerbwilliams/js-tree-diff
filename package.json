@@ -4,8 +4,8 @@
   "scripts": {
     "start": "node .",
     "build": "babel src -d lib",
-    "test": "babel src -d lib && ./node_modules/.bin/intern-client config=tests/intern",
-    "prepublish": "npm run tests && npm run build"
+    "test": "babel src -d lib && intern-client config=tests/intern",
+    "prepublish": "npm run test"
   },
   "dependencies": {},
   "devDependencies": {

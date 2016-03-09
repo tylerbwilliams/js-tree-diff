@@ -1,18 +1,19 @@
 
-define(function(require) {
-	var registerSuite = require('intern!object');
-	var assert = require('intern/chai!assert');
-	var diff = require('intern/dojo/node!../../lib/tree-diff');
+define( require => {
 
-	var state = {
+	const registerSuite = require('intern!object');
+	const assert = require('intern/chai!assert');
+	const diff = require('intern/dojo/node!../../lib/tree-diff');
+
+	const state = {
 		path: []
 	};
 
-	var create = ( key, label, attrs, children )=> {
-		var _path = [ ...state.path ];
-		var _key = key;
+	const create = ( key, label, attrs, children )=> {
+		const _path = [ ...state.path ];
+		const _key = key;
 		state.path.push( _key );
-		var node = {
+		const node = {
 			key: _key,
 			path: _path,
 			label: label,
@@ -23,11 +24,11 @@ define(function(require) {
 		return node;
 	};
 
-	var tree1 = create( 0, 'div', { }, function(){return [];});
+	const tree1 = create( 0, 'div', { }, ()=> []);
 
-	var tree2 = create( 0, 'div', { className: 'root-class' }, function(){return [];});
+	const tree2 = create( 0, 'div', { className: 'root-class' }, ()=> []);
 
-	var output = {
+	const output = {
 		op: 'UPDATE',
 		node: { key: 0, path: [] },
 		type: 'attr',
@@ -35,15 +36,14 @@ define(function(require) {
 		value: 'root-class'
 	};
 
-	var patches = diff( tree1, tree2 );
-
 	registerSuite({
 		name: '10-dom-attr',
 
-		test: function() {
+		test: ()=> {
+			const patches = diff( tree1, tree2 );
+
 			assert.ok( patches.length !== 0, 'Expected patches not found.');
 			assert.ok( patches.length === 1, 'Unexpected patches.');
-			
 			assert.deepEqual( patches[0], output, 'Unexpected Patch.');
 		}
 	})
