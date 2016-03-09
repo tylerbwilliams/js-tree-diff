@@ -4,10 +4,17 @@ require('babel-register');
 const suite = require('./suite');
 
 suite.run([
-	'./1-root-equal',
-	'./2-root-attr',
-	'./3-child-equal',
-	'./4-child-attr'
+	'./01-root-equal',
+	'./02-root-attr',
+	'./03-child-equal',
+	'./04-child-attr',
+	'./05-child-multi',
+	'./06-child-reorder',
+	'./07-deep-equal',
+	'./08-deep-inequal',
+	'./09-dom-root',
+	'./10-dom-attr',
+	'./11-huge-tree'
 ]);
 
 // const util = require('util');
