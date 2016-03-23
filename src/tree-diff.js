@@ -16,7 +16,7 @@ const getInfo = node => ({
 });
 
 // Diff method.
-const diff = module.exports = ( tree1, tree2 )=> {
+export default function diff( tree1, tree2 ) {
 	
 	// Hash table contains an entry for each depth level of the new tree
 	// - Each entry is a hash table that contains an entry for each full path
