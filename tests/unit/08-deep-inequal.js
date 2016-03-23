@@ -1,12 +1,10 @@
 
-import assert from 'assert';
+define( require => {
 
-import diff from '../src/tree-diff';
+	const registerSuite = require('intern!object');
+	const assert = require('intern/chai!assert');
+	const diff = require('intern/dojo/node!../../lib/tree-diff');
 
-const DEBUG = false;
-
-export default function test( next ) {
-	
 	const tree1 = {
 		key: 0,
 		path: [],
@@ -78,7 +76,7 @@ export default function test( next ) {
 				key: 1,
 				path: [ 0 ],
 				label: 'div',
-				attrs: { },
+				attrs: { className: 'main' },
 				children: [
 					{
 						key: 0,
@@ -91,14 +89,14 @@ export default function test( next ) {
 								path: [ 0, 1, 0 ],
 								label: 'text',
 								attrs: { },
-								text: 'This is a subheader paragraph.'
+								text: 'This is an updated subheader paragraph.'
 							}
 						]
 					},
 					{
 						key: 1,
 						path: [ 0, 1 ],
-						label: 'p',
+						label: 'span',
 						attrs: { },
 						children: [
 							{
@@ -114,11 +112,51 @@ export default function test( next ) {
 			}
 		]
 	};
+	
+	const output = [
+		{	op: 'UPDATE',
+			node: { key: 1, path: [ 0 ] },
+			type: 'attr',
+			attr: 'className',
+			value: 'main' },
+		{	op: 'UPDATE',
+			node: { key: 0, path: [ 0, 1, 0 ] },
+			type: 'text',
+			attr: 'text',
+			value: 'This is an updated subheader paragraph.' },
+		{	op: 'DELETE', node: { key: 1, path: [ 0, 1 ] } },
+		{	op: 'INSERT',
+			node: {
+				key: 1,
+				path: [ 0, 1 ],
+				label: 'span',
+				attrs: {},
+				children: [
+					{	key: 0,
+						path: [ 0, 1, 1 ],
+						label: 'text',
+						attrs: {},
+						text: 'This is a content paragraph.' }
+				]
+			}
+		}
+	];
 
-	const patches = diff( tree1, tree2 );
-	DEBUG && console.log( patches );
-	
-	assert.ok( patches.length === 0, 'Unexpected patches.');
-	
-	next();
-}
+	registerSuite({
+		name: '08-deep-inequal',
+
+		test: ()=> {
+			const patches = diff( tree1, tree2 );
+
+			const actual = patches.length;
+			const expected = output.length;
+
+			assert.ok( !( actual < expected ), 'Expected patches not found.');
+			assert.ok( !( actual > expected ), 'Unexpected patches.');
+
+			patches.forEach(( patch, idx )=> {
+				assert.ok( patch, output[idx], 'Patch invalid.');
+			});
+		}
+	})
+});

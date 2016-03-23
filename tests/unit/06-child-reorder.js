@@ -1,12 +1,10 @@
 
-import assert from 'assert';
+define( require => {
 
-import diff from '../src/tree-diff';
+	const registerSuite = require('intern!object');
+	const assert = require('intern/chai!assert');
+	const diff = require('intern/dojo/node!../../lib/tree-diff');
 
-const DEBUG = false;
-
-export default function test( next ) {
-	
 	const tree1 = {
 		key: 0,
 		path: [],
@@ -76,15 +74,18 @@ export default function test( next ) {
 			index: 1 }
 	];
 
-	const patches = diff( tree1, tree2 );
-	DEBUG && console.log( patches );
-	
-	assert.ok( !( patches.length < 2 ), 'Expected patches not found.');
-	assert.ok( !( patches.length > 2 ), 'Unexpected patches.');
-	
-	patches.forEach(( patch, idx )=> {
-		assert.ok( patch, output[idx], 'Patch invalid.');
-	});
-	
-	next();
-}
+	registerSuite({
+		name: '06-child-reorder',
+
+		test: ()=> {
+			const patches = diff( tree1, tree2 );
+
+			assert.ok( !( patches.length < 2 ), 'Expected patches not found.');
+			assert.ok( !( patches.length > 2 ), 'Unexpected patches.');
+
+			patches.forEach(( patch, idx )=> {
+				assert.ok( patch, output[idx], 'Patch invalid.');
+			});
+		}
+	})
+});

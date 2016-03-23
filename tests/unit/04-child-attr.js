@@ -1,12 +1,10 @@
 
-import assert from 'assert';
+define( require => {
 
-import diff from '../src/tree-diff';
+	const registerSuite = require('intern!object');
+	const assert = require('intern/chai!assert');
+	const diff = require('intern/dojo/node!../../lib/tree-diff');
 
-const DEBUG = false;
-
-export default function test( next ) {
-	
 	const tree1 = {
 		key: 0,
 		path: [],
@@ -47,13 +45,15 @@ export default function test( next ) {
 		value: 'child-class'
 	}
 
-	const patches = diff( tree1, tree2 );
-	DEBUG && console.log( patches );
-	
-	assert.ok( patches.length !== 0, 'Expected patches not found.');
-	assert.ok( patches.length === 1, 'Unexpected patches.');
-	
-	assert.deepEqual( patches[0], output, 'Unexpected Patch.');
-	
-	next();
-}
+	registerSuite({
+		name: '04-child-attr',
+
+		test: ()=> {
+			const patches = diff( tree1, tree2 );
+
+			assert.ok( patches.length !== 0, 'Expected patches not found.');
+			assert.ok( patches.length === 1, 'Unexpected patches.');
+			assert.deepEqual( patches[0], output, 'Unexpected Patch.');
+		}
+	})
+});
